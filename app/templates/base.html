@@ -12,7 +12,8 @@
     <meta name="keywords" content="python, flask, django, web, paint, sysu">
 
     <link rel="shortcut icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"> -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     {% block style %}{% endblock %}
     <style type="text/css">
@@ -118,8 +119,11 @@
     {% block content %}{% endblock %}
     </div>
     {% include "footer.html" %}
-    <script src="/static/jquery/jquery.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="/static/jquery/jquery.min.js"></script> -->
+    <script src="http://libs.useso.com/js/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script src="/static/bootstrap/js/bootstrap.min.js"></script> -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
     <!-- moment.js -->
     {{ moment.include_moment() }}
     {{ moment.lang('zh_CN') }}
