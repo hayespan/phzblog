@@ -30,7 +30,7 @@ def post(index_name):
 def create_post():
     form = PostForm()
     if request.method == 'GET':
-        return render_template('editpost.html', form=form)
+        return render_template('editpost.html', form=form, creat=True)
     elif request.method == 'POST':
         if form.validate_on_submit():
             post = Post(
