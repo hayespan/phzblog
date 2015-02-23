@@ -1,0 +1,33 @@
+{% extends "post_base.html" %}
+
+{% block style %}
+{% include "post-css" %}
+{% endblock %}
+
+{% block css %}
+{{ super() }}
+{% include "post-subcontent.css" %}
+{% endblock%}
+
+{% block subcontent %}
+{% from "post-macro.html" import postmacro with context %} {# 导入生成post的宏 #}
+{# 生成post列表(完整篇幅) #}
+{% for post in posts %}
+{{ postmacro(post) }}
+<hr class="post-divide-bar">
+{% endfor %}
+
+{# 分页处理 #}
+{% from "pagination-macro.html" import pagination_widget with context %}
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    </div>
+    <div class="pagination col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        {{ pagination_widget(pagination, '.index') }}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% include "post-js" %}
+{% endblock %}

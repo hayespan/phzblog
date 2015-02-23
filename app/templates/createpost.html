@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block style %}
+{% include "post-css" %}
+<!-- datepicker插件 -->
+<link href="/static/css/datepicker.css" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block css %}
+#post-input {
+overflow-y: hidden;
+}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div id="post-left" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <form class="createpost form-horizontal" method="post" action="{{ url_for('post.create_post') }}"role="form">
+                <div class="form-group">
+                    {{ form.csrf_token }}
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {% for msg in get_flashed_messages() %}
+                        <div class="alert alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{msg}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        {{ form.title(class_='form-control', placeholder='title') }}
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        {{ form.index_name(class_='form-control', placeholder='index_name') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        {{ form.released_time(class_='form-control post-time', id='post-released-time', placeholder='released time') }}
+                    </div>
+                    <div class="checkbox col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <label>
+                            {{ form.hidden }}
+                            <span class="glyphicon glyphicon-eye-close"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        {{ form.categories(class_='form-control category', placeholder='categories') }}
+                        <!-- <input type="text" class="form-control category" id="post-category" name="categories" placeholder="categories"> -->
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle category-dropdown" data-toggle="dropdown" aria-expanded="false">
+                              <span class="glyphicon glyphicon-book"></span>
+                              <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">category1</a></li>
+                            <li><a href="#">category2</a></li>
+                            <li><a href="#">category3</a></li>
+                          </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        {{ form.tags(class_='form-control tag', placeholder='tags') }}
+                        <!-- <input type="text" class="form-control tag" id="post-tag" name="tags" placeholder="tags"> -->
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default dropdown-toggle tag-dropdown" data-toggle="dropdown" aria-expanded="false">
+                              <span class="glyphicon glyphicon-tag"></span>
+                              <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">tag1</a></li>
+                            <li><a href="#">tag2</a></li>
+                            <li><a href="#">tag3</a></li>
+                          </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {{ form.post(class_='form-control', id='post-input', rows='20') }}
+                        <!-- <textarea id="post-input" class="form-control" name="post" rows="20"></textarea> -->
+                    </div>
+                </div>
+                <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    {{ form.submit(class_='btn btn-default') }}
+                </div>
+            </form>
+        </div>
+        <div id="post-right" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- 基本md -->
+<script src="/static/js/pagedown/Markdown.Converter.js"></script>
+<script src="/static/js/pagedown/Markdown.Sanitizer.js"></script>
+<!-- 拓展md -->
+<script src="/static/js/pagedown-extra/Markdown.Extra.js"></script>
+<!-- code高亮js -->
+<script src="/static/js/pagedown-extra/prettify.js"></script>
+
+<script src="/static/js/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+// datepicker控件
+$('#post-released-time').datepicker({
+    format: 'yyyy-mm-dd',
+});
+// 自动调整textarea高度
+autorows = function() {
+    postarea = $('#post-input');
+    while (postarea.rows > 30 && postarea.scrollHeight < postarea.offsetHeight) {
+        postarea.rows--;
+    }
+    var h=0;
+    while (postarea.scrollHeight > postarea.offsetHeight && h!==postarea.offsetHeight) {
+        h=postarea.offsetHeight;
+        postarea.rows++;
+    }
+    postarea.rows++
+}
+// 更新md预览
+f = function() {
+    if (typeof flask_pagedown_converter === "undefined")
+        flask_pagedown_converter = Markdown.getSanitizingConverter();
+    Markdown.Extra.init(flask_pagedown_converter, {highlighter: "prettify"});
+    flask_pagedown_converter = flask_pagedown_converter.makeHtml;
+    var textarea = document.getElementById("post-input");
+    var preview = document.createElement('div');
+    preview.className = 'post-preview';
+    post_right = document.getElementById('post-right');
+    post_right.appendChild(preview)
+    textarea.onkeyup = function() { preview.innerHTML = flask_pagedown_converter(textarea.value); 
+    prettyPrint();
+    autorows();}
+    textarea.onkeyup.call(textarea);
+}
+if (document.readyState === 'complete') 
+    f();
+else if (window.addEventListener)
+    window.addEventListener("load", f, false);
+else if (window.attachEvent)
+    window.attachEvent("onload", f);
+else
+    f();
+</script>
+{% endblock %}

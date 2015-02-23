@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block css %}
+.login-form {
+border: 2px solid #828FC1;
+border-radius: 5px;
+padding: 20px 10px;
+}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <form class="login-form col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-offset-3 col-xs-6 form-horizontal" method="post" role="form">
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{msg}}
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                {{ form.csrf_token }}
+            </div>
+            <div class="form-group">
+                <label for="username" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">username</label>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 control-label">password</label>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                </div>
+            </div>
+             <div class="form-group">
+                 <div class="col-md-offset-2 col-md-6">
+                     <div class="checkbox">
+                         <label>
+                             <input name="remember_me" type="checkbox"> Remember me
+                         </label>
+                     </div>
+                 </div>
+            </div>
+            <div class="form-group">
+                 <div class="col-md-offset-2 col-md-6">
+                    <button type="submit" class="btn btn-default">Sign in</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+
+

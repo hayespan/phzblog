@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <title>{% block title %}潘海智的博客{% endblock %}</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="潘海智">
+    <meta name="description" content="一个爱画画的IT男！">
+    <meta name="keywords" content="python, flask, django, web, paint, sysu">
+
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+
+    {% block style %}{% endblock %}
+    <style type="text/css">
+        html {
+            position: relative;
+            min-height: 100%;
+            font-family: 'Open Sans','Helvetica Neue','Arial','Verdana','Hiragino Sans GB','STHeiti','SimSun','sans-serif';
+        }
+        body {
+            margin-bottom: 100px;
+        }
+        #header {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #4A5885;
+        }
+        .logo-left-inner {
+            float: right;
+        }
+        #logo-image {
+            border: 5px solid #CCC;
+        }
+        .logo-text {
+            font-size: 24px;
+            border-bottom: 1px solid #CCC;
+            line-height: 50px;
+            color: #FFF;
+        }
+        .logo-expr {
+            font-size: 15px;
+            color: #828FC1;
+        }
+        .logo-right-inner {
+            float: left;
+        }
+        #login-box {
+            margin-bottom: 40px;
+        }
+        #login-box-inner {
+            padding-top: 10px;
+            padding-right: 60px;
+            float: right;
+        }
+        #main-navbar-1 {
+            font-size: 20px;
+        }
+        #main-navbar-1 .navbar-nav li {
+            margin: 0px 10px 0px 10px;
+        }
+        #main-navbar-1 .navbar-nav > li > a {
+            color: #C6CCE3;
+        }
+        #main-navbar-1 .navbar-nav > li > a:hover, #main-navbar-1 .navbar-nav > li > a:focus {
+            color: #394471;
+            background-color: #7785BB;
+        }
+        #main-navbar-1 .navbar-nav > .active > li > a:hover {
+            color: #1C2239;
+        }
+        #navbar2 {
+            display: none;
+        }
+        button.navbar-toggle, button.navbar-toggle.icon-bar {
+            border-color: #fff;
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #fff;
+        }
+
+        .content {
+            margin-top: 40px;
+        }
+        .content a {
+            color: #4A5885;
+        }
+        .content a:hover {
+            text-decoration: none;
+            color: #99A3CC
+        }
+
+        .footer {
+            background-color: #4A5885;
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 50px;
+            padding-bottom: 20px;
+            position: absolute;
+            width: 100%;
+            bottom: 0px;
+        }
+    {% block css %}{% endblock %}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="content">
+    {% block content %}{% endblock %}
+    </div>
+    {% include "footer.html" %}
+    <script src="/static/jquery/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- moment.js -->
+    {{ moment.include_moment() }}
+    {{ moment.lang('zh_CN') }}
+    {% block script %}{% endblock %}
+</body>
+</html>

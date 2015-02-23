@@ -1,0 +1,80 @@
+{% extends "post_base.html" %}
+
+{% block css %}
+{{super()}}
+.content-left-inner {
+    padding-left: 30px;
+    padding-right: 15px;
+    float: right;
+    width: 100%;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+background-color: #4A5885;
+border-color: #4A5885;
+}
+
+.post-entity-box {
+font-size: 20px;
+padding-top: 10px;
+padding-bottom: 5px;
+}
+
+.list-group-item.post-box:hover {
+    background-color: #EFF2F5;
+    border-color: #E0E0E0;
+}
+.glyphicon {
+padding-top: 1px;
+}
+
+.time-box, .interaction-box {
+padding: 3px 0px;
+}
+.read-cnt, .comment-cnt {
+padding-left: 0;
+}
+{% endblock %}
+
+{% block subcontent %}
+<div class="content-left-inner">
+    <div class="post-list row">
+        <div class="col-lg-2 col-md-2 col-sm-0 col-xs-0">
+        </div>
+        <div class="list-group col-lg-10 col-md-10 col-sm-12 col-xs-12">
+            <a href="">
+            <div class="list-group-item active row">
+                <h4><span class="glyphicon glyphicon-list-alt"></span> {{ head }}</h4>
+            </div>
+            </a>
+            {% for post in posts %}
+            <a id="{{ post.id }}" class="post-link" href="{{ url_for('post.post', index_name=post.index_name) }}">
+                <div id="{{ post.id }}" class="post-box list-group-item row">
+                    <div class="post-entity-box col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        {{ post.title }}
+                    </div>
+                    <div class="post-msg-box col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="row">
+                            <div class="time-box col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span class="glyphicon glyphicon-time"></span>
+                                {{ moment(post.released_time).format('YYYY-MM-DD') }}
+                            </div>
+                            <div class="interaction-box col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="read-cnt col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <span class="glyphicon glyphicon-eye-open"></span> 
+                                    {{post.read_cnt}}
+                                </div>
+                                <div class="comment-cnt col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <span class="glyphicon glyphicon-comment"></span> 
+                                    0
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

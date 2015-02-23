@@ -1,0 +1,509 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <title>潘海智的博客</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="潘海智">
+    <meta name="description" content="一个爱画画的IT男！">
+    <meta name="keywords" content="python, flask, django, web, paint, sysu">
+
+    <link rel="shortcut icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        html {
+            position: relative;
+            min-height: 100%;
+            font-family: 'Open Sans','Helvetica Neue','Arial','Verdana','Hiragino Sans GB','STHeiti','SimSun','sans-serif';
+        }
+        body {
+            margin-bottom: 100px;
+        }
+        #header {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #4A5885;
+        }
+        .logo-left-inner {
+            float: right;
+        }
+        #logo-image {
+            border: 5px solid #CCC;
+        }
+        .logo-text {
+            font-size: 24px;
+            border-bottom: 1px solid #CCC;
+            line-height: 50px;
+            color: #FFF;
+        }
+        .logo-expr {
+            font-size: 15px;
+            color: #828FC1;
+        }
+        .logo-right-inner {
+            float: left;
+        }
+        #login-box {
+            margin-bottom: 40px;
+        }
+        #main-navbar-1 {
+            font-size: 20px;
+        }
+        #main-navbar-1 .navbar-nav li {
+            margin: 0px 10px 0px 10px;
+        }
+        #main-navbar-1 .navbar-nav > li > a {
+            color: #C6CCE3;
+        }
+        #main-navbar-1 .navbar-nav > li > a:hover, #main-navbar-1 .navbar-nav > li > a:focus {
+            color: #394471;
+            background-color: #7785BB;
+        }
+        #main-navbar-1 .navbar-nav > .active > li > a:hover {
+            color: #1C2239;
+        }
+
+        #navbar2 {
+            display: none;
+        }
+        button.navbar-toggle, button.navbar-toggle.icon-bar {
+            border-color: #fff;
+        }
+        .navbar-toggle .icon-bar {
+            background-color: #fff;
+        }
+        .footer {
+            background-color: #4A5885;
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 50px;
+            padding-bottom: 20px;
+            position: absolute;
+            width: 100%;
+            bottom: 0px;
+        }
+        .meta-box {
+            padding-right: 0px;
+        }
+        .meta-box-inner {
+            float: right;
+            text-align: center;
+        }
+        .tag-box .glyphicon {
+            margin-top: 5px;
+            float: center;
+            color: #4A5885;
+        }
+        .tag-box ul {
+            margin-left: -40px;
+            list-style: none;
+            font-size: 15px;
+            line-height: 25px;
+        }
+        .info-box {
+            font-size: 15px;
+            line-height: 30px;
+            color: #4A5885;
+            border-bottom: 1px solid #4A5885;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+        .time-box {
+            width: 100px;
+            height: 100px;
+            background-color: #4A5885;
+            text-shadow: 0px 1px #81bcd1;
+            padding: 10px 10px;
+            border: 5px solid #99A3CC;
+            color: #C6CCE3;
+        }
+        .time-box .month {
+            font-size: 20px;
+            border-bottom: 1px solid #99A3CC;
+            width: 100%;
+            display: block;
+        }
+        .info-box .glyphicon {
+            float: left;
+            margin: 6px 3px;
+            color: #4A5885;
+        }
+        .content-right-inner {
+            width: 90%;
+            float: left;
+            color: #4A5885;
+        }
+        .content-right .panel-header {
+            padding: 20px 20px;
+            font-size: 15px;
+            border-bottom: 1px solid #C6CCE3;
+        }
+        .content-right .panel-body ul {
+            list-style: none;
+            padding-left: 10px;
+            line-height: 30px;
+        }
+        div.article-box {
+            padding-left: 20px;
+            width: 75%;
+            border-bottom: 
+        }
+        .content {
+            margin-top: 40px;
+        }
+        .content a {
+            color: #4A5885;
+        }
+        .content a:hover {
+            text-decoration: none;
+            color: #99A3CC
+        }
+        .content-left .section {
+            margin-bottom: 50px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="logo-box col-lg-5 col-md-12 col-sm-12 col-xs-12 text-center">
+                    <div class="logo-left col-md-6 col-sm-6 col-xs-6">
+                        <div class="logo-left-inner">
+                            <a href="/">
+                                <img id="logo-image" class="img-circle" src="static/img/logo.png"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="logo-right col-md-6 col-sm-6 col-xs-6">
+                        <div class="logo-right-inner">
+                            <h2 class="logo-text">
+                            Hayes Pan的博客
+                            </h2>
+                            <p class="logo-expr">
+                            一个爱画画的预备码农!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 占位 -->
+                <div class="header-box-left col-lg-0 col-md-2 col-sm-1 col-xs-0">
+                </div>
+                <div class="header-box col-lg-7 col-md-10 col-sm-11 col-xs-12">
+                    <div id="login-box" class="row">
+                        <!-- login... -->
+                    </div>
+                    <div class="row navbar">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-1" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div id="main-navbar-1" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li class="active">
+                                <a href="/">首页</a>
+                                </li>
+                                <li>
+                                <a href="/article">日志</a>
+                                </li>
+                                <li>
+                                <a href="/album">相册</a>
+                                </li>
+                                <li>
+                                <a href="/about">关于</a>
+                                </li>
+                            </ul>
+                            <form class="navbar-form navbar-left" role="search" action="/search" method="post" accept-charset="utf-8">
+                                <div class="input-group">
+                                    <input type=text" class="form-control" placeholder="搜索" name="querystr"> 
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="navbar2" class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-2" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">
+                    <span>Hayes Pan的博客</span>
+                </a>
+            </div>
+            <div id="main-navbar-2" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/" class="active">首页</a>
+                    </li>
+                    <li>
+                        <a href="/article">日志</a>
+                    </li>
+                    <li>
+                        <a href="/album">相册</a>
+                    </li>
+                    <li>
+                        <a href="/about">关于</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search" action="/search" method="post" accept-charset="utf-8">
+                    <div class="input-group">
+                         <input type=text" class="form-control" placeholder="搜索" name="querystr"> 
+                         <div class="input-group-btn">
+                             <button class="btn btn-default" type="submit">
+                                 <i class="glyphicon glyphicon-search"></i>
+                             </button>
+                         </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="content-left col-bg-9 col-md-9 col-sm-9 col-xs-9">
+                    <div class="section row">
+                        <div class="meta-box col-bg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="meta-box-inner">
+                                <div class="time-box img-circle">
+                                    <span class="year">
+                                        2015
+                                    </span>
+                                    <span class="month">
+                                        1月
+                                    </span>
+                                    <span class="day">
+                                        27
+                                    </span>
+                                </div>
+                                <div class="info-box">
+                                    <div class="author">
+                                        <span class="glyphicon glyphicon-pencil">
+                                        </span>
+                                        <span id="author-name">
+                                            潘海智
+                                        </span>
+                                    </div>
+                                    <div class="reader">
+                                        <span class="glyphicon glyphicon-eye-open">
+                                        </span>
+                                        <span id="reader-cnt">
+                                            11
+                                        </span>
+                                    </div>
+                                    <div class="comment">
+                                        <span class="glyphicon glyphicon-comment">
+                                        </span> 
+                                        <a href="">
+                                            <span id="comment-cnt">
+                                                0
+                                            </span> 
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tag-box">
+                                    <span class="glyphicon glyphicon-tags">
+                                    </span>
+                                    <ul>
+                                        <li>
+                                        <a href="">flask</a>
+                                        </li>
+                                        <li>
+                                        <a href="">mongo</a>
+                                        </li>
+                                        <li>
+                                        <a href="">django</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-box col-bg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="title">
+                                <h2>
+                                    <a href="">我的博客制作记录</a>
+                                </h2>
+                            </div>
+                            <div class="article-content">
+                                <p>
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section row">
+                        <div class="meta-box col-bg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="meta-box-inner">
+                                <div class="time-box img-circle">
+                                    <span class="year">
+                                        2015
+                                    </span>
+                                    <span class="month">
+                                        1月
+                                    </span>
+                                    <span class="day">
+                                        27
+                                    </span>
+                                </div>
+                                <div class="info-box">
+                                    <div class="author">
+                                        <span class="glyphicon glyphicon-pencil">
+                                        </span>
+                                        <span id="author-name">
+                                            潘海智
+                                        </span>
+                                    </div>
+                                    <div class="reader">
+                                        <span class="glyphicon glyphicon-eye-open">
+                                        </span>
+                                        <span id="reader-cnt">
+                                            11
+                                        </span>
+                                    </div>
+                                    <div class="comment">
+                                        <span class="glyphicon glyphicon-comment">
+                                        </span> 
+                                        <a href="">
+                                            <span id="comment-cnt">
+                                                0
+                                            </span> 
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tag-box">
+                                    <span class="glyphicon glyphicon-tags">
+                                    </span>
+                                    <ul>
+                                        <li>
+                                        <a href="">flask</a>
+                                        </li>
+                                        <li>
+                                        <a href="">mongo</a>
+                                        </li>
+                                        <li>
+                                        <a href="">django</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-box col-bg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="title">
+                                <h2>
+                                    <a href="">我的博客制作记录</a>
+                                </h2>
+                            </div>
+                            <div class="article-content">
+                                <p>
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                个人博客终于动工了，接下来将把建博客的过程记录下来，后端使用flask+MySQL。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-right col-bg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="content-right-inner">
+                        <div class="category panel panel-default">
+                            <div class="panel-header">
+                                <span class="glyphicon glyphicon-book">
+                                分类
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>
+                                    <span class="glyphicon glyphicon-menu-right">
+                                    </span>
+                                    <a href="">django (2)</a>
+                                    </li>
+                                    <li>
+                                    <span class="glyphicon glyphicon-menu-right">
+                                    </span>
+                                    <a href="">flask (2)</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="archive panel panel-default">
+                            <div class="panel-header">
+                                <span class="glyphicon glyphicon-book">
+                                归档
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>
+                                    <span class="glyphicon glyphicon-menu-right">
+                                    </span>
+                                    <a href="">2014.09 (1)</a>
+                                    </li>
+                                    <li>
+                                    <span class="glyphicon glyphicon-menu-right">
+                                    </span>
+                                    <a href="">2015.01 (2)</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <a href="/" target="_blank">潘海智的博客</a>
+            ©2015-
+            <a href="/feedback" target="_blank">Feekback</a>
+        </div>
+    </div>
+    <script src="static/jquery/jquery.js"></script>
+    <script src="static/bootstrap/js/bootstrap.js"></script>
+    <script>
+        //$(".collapse").collapse()
+    </script>
+
+</body>
+</html>

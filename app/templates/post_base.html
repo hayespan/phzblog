@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block style%}
+{% endblock %}
+
+{% block css %}
+.content-right-inner {
+    width: 100%;
+    float: left;
+    color: #4A5885;
+}
+.content-right-inner .panel-header {
+    padding: 20px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid #C6CCE3;
+}
+.content-right-inner .panel-body ul {
+    list-style: none;
+    padding-left: 10px;
+    line-height: 30px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="content-left col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            {% block subcontent %}{% endblock %}
+        </div>
+        <div class="content-right col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            <div class="content-right-inner">
+                <div class="category panel panel-default">
+                    <div class="panel-header">
+                        <span class="glyphicon glyphicon-book">
+                            分类
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for category in categories %}
+                            <li>
+                            <span class="glyphicon glyphicon-menu-right">
+                            </span>
+                            <a href="{{ url_for('post.post_list_category', category=category.content) }}">{{ category.content }} ({{ category.posts.count() }})</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="archive panel panel-default">
+                    <div class="panel-header">
+                        <span class="glyphicon glyphicon-book">
+                            归档
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for archive in archives %}
+                            <li>
+                            <span class="glyphicon glyphicon-menu-right">
+                            </span>
+                            <a href="{{ url_for('post.post_list_archive', year=archive[0].split('.')[0], month=archive[0].split('.')[1]) }}">{{ archive[0] }} ({{ archive[1] }})</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

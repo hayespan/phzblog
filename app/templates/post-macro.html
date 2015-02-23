@@ -1,0 +1,65 @@
+{% macro postmacro(post) %}
+<div class="section row" id="{{ post.id }}">
+    <div class="meta-box col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="meta-box-inner">
+            <div class="time-box img-circle">
+                <span class="year">
+                    {{ moment(post.released_time).format('YYYY') }}
+                </span>
+                <span class="month">
+                    {{ moment(post.released_time).format('MMMM') }}
+                </span>
+                <span class="day">
+                    {{ moment(post.released_time).format('Do') }}
+                </span>
+            </div>
+            <div class="info-box">
+                <!-- <div class="author"> -->
+                <!-- <span class="glyphicon glyphicon-pencil"> -->
+                <!-- </span> -->
+                <!-- <span id="author-name"> -->
+                <!-- 潘海智 -->
+                <!-- </span> -->
+                <!-- </div> -->
+                <div class="reader">
+                    <span class="glyphicon glyphicon-eye-open">
+                    </span>
+                    <span id="reader-cnt">
+                        {{ post.read_cnt }}
+                    </span>
+                </div>
+                <div class="comment">
+                    <span class="glyphicon glyphicon-comment">
+                    </span> 
+                    <a href="">
+                        <span id="comment-cnt">
+                            0
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="tag-box">
+                <span class="glyphicon glyphicon-tags">
+                </span>
+                <ul>
+                    {% for tag in post.tags.all() %}
+                    <li>
+                    <a href="{{ url_for('post.post_list_tag', tag=tag.content) }}">{{ tag.content }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="article-box col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        <div class="title">
+            <h2>
+                <a href="{{ url_for('post.post', index_name=post.index_name) }}">{{ post.title }}</a>
+            </h2>
+        </div>
+        <div class="article-content">
+            <input class="raw-post hidden" type="hidden" value="{{ post.content }}"/>
+        </div>
+    </div>
+</div>
+{% endmacro %}
