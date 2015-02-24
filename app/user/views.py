@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import os
 import json
+from hashlib import sha1
+
 from flask import render_template, request, redirect, flash, url_for, session
 
 from flask.ext.login import login_required, login_user, logout_user
@@ -39,7 +42,7 @@ def update_qq_api_request_data(data={}):
     '''Update some required parameters for OAuth2.0 API calls'''
     defaults = {
         'openid': session.get('qq_openid'),
-        'access_token': session.get('qq_token')[0],
+        'access_token': session.get('qq_access_token')[0],
         'oauth_consumer_key': qq_oauth.consumer_key,
         }
     defaults.update(data)
@@ -67,17 +70,23 @@ def get_user_info():
 
 @userbp.route('/authorized')
 def authorized():
-    res = qq_oauth.authorized_response()
-    if res is None:
-        return 'Access denied: reason=%s error=%s' % (
-                request.args['error_reason'],
-                request.args['error_description']
-                )
-    session['qq_token'] = (res['access_token'], '')
-    # Get openid via access_token, openid and access_token are needed for API calls
+    state = request.args.get('state')
+    if state != session.get('oauth_state'):
+        return 'Login session expired!'
+    usercancel = request.args.get('usercancel')
+    msg = request.args.get('msg')
+    if usercancel or msg:
+        return 'Login failed! usercancel: %s, msg: %s' % (usercancel, msg)
+    # second step, get access_token
+    try:
+        data = self.handle_oauth2_response()
+    except:
+        pass
+    session['qq_access_token'] = data['access_token']
+    session.pop('oauth_state')
     res = qq_oauth.get(
             '/oauth2.0/me',
-            {'access_token': session['qq_token'][0]}
+            {'access_token': data['access_token']}
             )
     res = json_to_dict(res.data)
     if isinstance(res, dict):
@@ -86,5 +95,6 @@ def authorized():
 
 @userbp.route('/oauthlogin')
 def oauth_login():
-    return qq_oauth.authorize(callback=url_for('.authorized', _external=True))
+    session['oauth_state'] = sha1(os.urandom(64)).hexdigest()
+    return qq_oauth.authorize(callback=url_for('.authorized', _external=True), state=session['oauth_state'])
 
