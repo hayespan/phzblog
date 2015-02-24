@@ -42,7 +42,7 @@ def update_qq_api_request_data(data={}):
     '''Update some required parameters for OAuth2.0 API calls'''
     defaults = {
         'openid': session.get('qq_openid'),
-        'access_token': session.get('qq_access_token')[0],
+        'access_token': session.get('qq_access_token'),
         'oauth_consumer_key': qq_oauth.consumer_key,
         }
     defaults.update(data)
@@ -79,14 +79,14 @@ def authorized():
         return 'Login failed! usercancel: %s, msg: %s' % (usercancel, msg)
     # second step, get access_token
     try:
-        data = self.handle_oauth2_response()
+        data = qq_oauth.handle_oauth2_response()
     except:
         pass
-    session['qq_access_token'] = data['access_token']
+    session['qq_access_token'] = (data['access_token'], '')
     session.pop('oauth_state')
     res = qq_oauth.get(
             '/oauth2.0/me',
-            {'access_token': data['access_token']}
+            {'access_token': data['access_token'][0]}
             )
     res = json_to_dict(res.data)
     if isinstance(res, dict):

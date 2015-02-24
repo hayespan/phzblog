@@ -24,10 +24,6 @@ def import_qq_oauth_config(setup_state):
             base_url='https://graph.qq.com',
             request_token_url=None,
             request_token_params={'scope': 'get_user_info'},
-            access_token_params={
-                'client_id': app.config.get('QQ_APP_ID'),
-                'grant_type': 'authorization_code'
-                },
             access_token_url='/oauth2.0/token',
             authorize_url='/oauth2.0/authorize'
             )
