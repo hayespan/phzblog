@@ -3,7 +3,7 @@ import os
 import json
 from hashlib import sha1
 
-from flask import render_template, request, redirect, flash, url_for, session
+from flask import render_template, request, redirect, flash, url_for, session, jsonify
 
 from flask.ext.login import login_required, login_user, logout_user
 
@@ -42,7 +42,7 @@ def update_qq_api_request_data(data={}):
     '''Update some required parameters for OAuth2.0 API calls'''
     defaults = {
         'openid': session.get('qq_openid'),
-        'access_token': session.get('qq_access_token'),
+        'access_token': session.get('qq_access_token')[0],
         'oauth_consumer_key': qq_oauth.consumer_key,
         }
     defaults.update(data)
@@ -62,11 +62,11 @@ text/html, so we need reload the JSON data manually'''
 
 @userbp.route('/user_info')
 def get_user_info():
-    if 'qq_token' in session:
+    if 'qq_access_token' in session:
         data = update_qq_api_request_data()
         resp = qq_oauth.get('/user/get_user_info', data=data)
         return jsonify(status=resp.status, data=resp.data)
-    return redirect(url_for('oauth_login'))
+    return redirect(url_for('.oauth_login'))
 
 @userbp.route('/authorized')
 def authorized():
@@ -86,15 +86,19 @@ def authorized():
     session.pop('oauth_state')
     res = qq_oauth.get(
             '/oauth2.0/me',
-            {'access_token': data['access_token'][0]}
+            {'access_token': data['access_token']}
             )
     res = json_to_dict(res.data)
     if isinstance(res, dict):
         session['qq_openid'] = res.get('openid')
-    return redirect(url_for('get_user_info'))
+    return redirect(url_for('.get_user_info'))
 
 @userbp.route('/oauthlogin')
 def oauth_login():
     session['oauth_state'] = sha1(os.urandom(64)).hexdigest()
     return qq_oauth.authorize(callback=url_for('.authorized', _external=True), state=session['oauth_state'])
+
+@qq_oauth.tokengetter
+def get_qq_oauth_token():
+    return session.get('qq_access_token')
 
