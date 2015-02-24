@@ -5,6 +5,9 @@ from flask import Flask
 # flask-SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
+# flask-oauth
+from flask.ext.oauthlib.client import OAuth
+oauth = OAuth()
 # flask-login
 from flask.ext.login import LoginManager
 login_manager = LoginManager()
@@ -37,6 +40,9 @@ class App(object):
         self.manager = Manager(self.app)
         # add 'db' command for flask-migrate
         self.manager.add_command('db', MigrateCommand)
+
+        oauth.init_app(self.app)
+
         # pre-import some class for convenience
         def make_shell_context():
             from .user.models import User, Profile

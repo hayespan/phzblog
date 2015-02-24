@@ -11,5 +11,21 @@ userbp = Blueprint(
         # static_folder='static'.
         )
 
-from . import views, models
+qq_oauth = None
+@userbp.record
+def import_qq_oauth_config(setup_state):
+    global qq_oauth
+    from .. import oauth
+    app = setup_state.app
+    qq_oauth = oauth.remote_app(
+            'qq',
+            consumer_key=app.config.get('QQ_APP_ID'),
+            consumer_secret=app.config.get('QQ_APP_KEY'),
+            base_url='https://graph.qq.com',
+            request_token_url=None,
+            request_token_params={'scope': 'get_user_info'},
+            access_token_url='/oauth2.0/token',
+            authorize_url='/oauth2.0/authorize'
+            )
+    from . import views, models
 
