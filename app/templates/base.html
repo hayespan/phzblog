@@ -127,6 +127,14 @@
     <!-- moment.js -->
     {{ moment.include_moment() }}
     {{ moment.lang('zh_CN') }}
+    <script>
+    $($("#qq_oauth").click(function() {
+        window.open(
+    "{{ url_for('user.oauth_login') }}",
+    "TencentLogin",
+    "width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+    }))
+    </script>
     {% block script %}{% endblock %}
 </body>
 </html>

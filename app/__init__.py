@@ -17,11 +17,12 @@ login_manager.login_view = 'user.login'
 # app factory class
 class App(object):
     def __init__(self, **kwargs):
-        self.app = Flask(__name__, instance_relative_config=True)
+        self.app = Flask(__name__, instance_relative_config=False)
         # config -- public config 
-        self.app.config.from_object('config')
+        from phzblog import config
+        self.app.config.from_object(config)
         # instance/config.py -- private config
-        self.app.config.from_pyfile('config.py')
+        self.app.config.from_pyfile('../instance/config.py')
         # config/xxx.py -- scence config
         # self.app.config.from_envvar('APP_CONFIG_FILE') # APP_CONFIG_FILE defined in start.sh
 
@@ -81,5 +82,12 @@ class App(object):
         self.app.register_blueprint(
                 postbp,
                 url_prefix='/post'
+                )
+
+        # util
+        from .util import utilbp
+        self.app.register_blueprint(
+                utilbp,
+                url_prefix='/util'
                 )
 

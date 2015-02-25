@@ -68,21 +68,27 @@ def get_user_info():
         return jsonify(status=resp.status, data=resp.data)
     return redirect(url_for('.oauth_login'))
 
+@userbp.route('/oauthlogin_state/<int:state>')
+def oauth_login_state(state):
+    if state in [0, -1, -2, -3]:
+        return render_template('oauthlogin_state.html', state=state)
+    abort(404)
+
 @userbp.route('/authorized')
 def authorized():
     state = request.args.get('state')
     if state != session.get('oauth_state'):
-        return 'Login session expired!'
+        return redirect(url_for('.oauth_login_state', state=-1)) # csrf attack -- expired
     usercancel = request.args.get('usercancel')
     msg = request.args.get('msg')
     if usercancel or msg:
-        return 'Login failed! usercancel: %s, msg: %s' % (usercancel, msg)
+        return redirect(url_for('.oauth_login_state', state=-2)) # user cancel
     # second step, get access_token
     try:
         data = qq_oauth.handle_oauth2_response()
     except:
-        pass
-    session['qq_access_token'] = (data['access_token'], '')
+        return redirect(url_for('.oauth_login_state', state=-3)) # link failed
+    session['qq_access_token'] = (data['access_token'], '') # 0-token, 1-secret
     session.pop('oauth_state')
     res = qq_oauth.get(
             '/oauth2.0/me',
@@ -91,7 +97,7 @@ def authorized():
     res = json_to_dict(res.data)
     if isinstance(res, dict):
         session['qq_openid'] = res.get('openid')
-    return redirect(url_for('.get_user_info'))
+    return redirect(url_for('.oauth_login_state', state=0)) # success
 
 @userbp.route('/oauthlogin')
 def oauth_login():

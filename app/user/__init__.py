@@ -12,7 +12,7 @@ userbp = Blueprint(
         )
 
 qq_oauth = None
-@userbp.record
+@userbp.record_once
 def import_qq_oauth_config(setup_state):
     global qq_oauth
     from .. import oauth
@@ -27,5 +27,17 @@ def import_qq_oauth_config(setup_state):
             access_token_url='/oauth2.0/token',
             authorize_url='/oauth2.0/authorize'
             )
+    def convert_keys_to_string(dictionary):
+        """Recursively converts dictionary keys to strings."""
+        if not isinstance(dictionary, dict):
+            return dictionary
+        return dict((str(k), convert_keys_to_string(v))
+            for k, v in dictionary.items())
+
+    def change_qq_header(uri, headers, body):
+        headers = convert_keys_to_string(headers)
+        return uri, headers, body
+
+    qq_oauth.pre_request = change_qq_header
     from . import views, models
 

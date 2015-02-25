@@ -1,0 +1,15 @@
+{% if state == 0 %}
+登陆成功
+{% elif state == -1 %}
+会话过期，请重新登陆
+{% elif state == -2 %}
+已取消登陆
+{% elif state == -3 %}
+连接失败，请稍后重试
+{% endif %}
+<script>
+{% if state == 0 %}
+setTimeout("window.opener.location.reload();", 1000);
+{% endif %}
+setTimeout("window.close()", 2000);
+</script>
