@@ -39,5 +39,11 @@ def import_qq_oauth_config(setup_state):
         return uri, headers, body
 
     qq_oauth.pre_request = change_qq_header
+
+    # inject globals.avatar_base_url using app context_processor
+    @app.context_processor
+    def avatar_url():
+        return dict(avatar_base_url='http://q.qlogo.cn/qqapp/' + app.config.get('QQ_APP_ID') + '/%s/100')
+
     from . import views, models
 

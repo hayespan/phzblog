@@ -5,4 +5,4 @@ utilbp = Blueprint(
         'util',
         __name__,
         )
-from . import views
+from . import views, utils

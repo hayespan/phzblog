@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block css %}
+.user-avatar-inner {
+float: right;
+}
+.user-profile-inner {
+float: left;
+}
+.user-avatar {
+border: 8px solid #CCC;
+}
+.user-nickname {
+font-size: 18px;
+margin-top: 10px;
+text-align: center;
+}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-box row">
+        <div class="error-msg col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{msg}}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="user-avatar-box col-lg-5 col-md-5 col-sm-5 col-xs-5">
+            <div class="user-avatar-inner">
+                <div>
+                    <img class="user-avatar img-circle img-responsive" src="{{ avatar_base_url % current_user.profile.openid }}" alt="">
+                </div>
+                <div class="user-nickname">
+                    {{ current_user.profile.nickname }}
+                </div>
+            </div>
+        </div>
+        <div class="user-profile-box col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="user-profile-inner">
+                <form method='post' method='post' action='{{ url_for('user.modify_profile', username=current_user.username) }}' role="form">
+                    <div class="form-group">
+                        {{ form.csrf_token }}
+                        <label for="username">username</label>
+                        {{ form.username(class_='form-control', placeholder='建议输入QQ号，唯一') }}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">email</label>
+                        {{ form.email(class_='form-control', placeholder='建议留个邮箱哈') }}
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            {{ form.submit(class_='btn btn-default form-control') }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="msg-box row">
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

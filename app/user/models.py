@@ -8,13 +8,13 @@ from .. import db
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), nullable=False, index=True)
+    username = db.Column(db.String(32), nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    email = db.Column(db.String(75), nullable=False, index=True, unique=True)
+    email = db.Column(db.String(75), nullable=True, unique=True)
 
     sex = db.Column(db.Boolean, nullable=True)
-    is_admin = db.Column(db.Boolean, nullable=False)
-    is_active = db.Column(db.Boolean, nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     last_login = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     profile = db.relationship('Profile', backref='user', uselist=False, cascade='all, delete-orphan')
@@ -45,8 +45,12 @@ class Profile(db.Model):
     __tablename__ = 'profile'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # access_token = db.Column()
-    # openid = db.Column()
+    nickname = db.Column(db.String(30), nullable=False, default='')
+    province = db.Column(db.String(10), nullable=True) 
+    city = db.Column(db.String(20), nullable=True)
+    birth = db.Column(db.Date(), nullable=True)
+    access_token = db.Column(db.String(32))
+    openid = db.Column(db.String(32))
     def __repr__(self):
         return '<Profile %d %s>' % (self.id, self.user.username)
 

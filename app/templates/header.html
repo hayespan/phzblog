@@ -27,10 +27,11 @@
                 <div id="login-box">
                     <div id="login-box-inner">
                         {% if current_user.is_authenticated() %}
-                        <span>
-                            Hi, {{ current_user.username }}|
-                            <a href="{{ url_for('user.logout') }}" type="btn btn-default">Logo out</a>
+                        <span id="user-grant" class="btn btn-primary btn-sm">
+                            
+                            <a href="{{ url_for('user.modify_profile', username=current_user.username) }}"><span class="glyphicon glyphicon-user"></span> {{ current_user.profile.nickname }}</a>
                         </span>
+                        <a id="user-logout" href="{{ url_for('user.logout') }}" class="btn btn-danger btn-sm">退出</a>
                         {% else %}
                         <a href="javascript:;" id="qq_oauth">
                             <img src="/static/img/Connect_logo_3.png">
@@ -56,21 +57,21 @@
                             <li>
                             <a href="{{ url_for('post.post_list') }}">日志</a>
                             </li>
-                            <li>
-                            <a href="/album">相册</a>
-                            </li>
-                            <li>
-                            <a href="/about">关于</a>
-                            </li>
+                            <!-- <li> -->
+                            <!-- <a href="/album">相册</a> -->
+                            <!-- </li> -->
+                            <!-- <li> -->
+                            <!-- <a href="/about">关于</a> -->
+                            <!-- </li> -->
                         </ul>
-                        <form id="navbar-search" class="navbar-form navbar-left" role="search" action="/search" method="post" accept-charset="utf-8">
-                            <div class="input-group">
-                                <input type=text" class="form-control" placeholder="搜索" name="querystr"> 
-                                <span class="input-group-addon btn" type="submit">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </span>
-                            </div>
-                        </form>
+                        <!-- <form id="navbar-search" class="navbar-form navbar-left" role="search" action="/search" method="post" accept-charset="utf-8"> -->
+                            <!-- <div class="input-group"> -->
+                                <!-- <input type=text" class="form-control" placeholder="搜索" name="querystr">  -->
+                                <!-- <span class="input-group-addon btn" type="submit"> -->
+                                    <!-- <span class="glyphicon glyphicon-search"></span> -->
+                                <!-- </span> -->
+                            <!-- </div> -->
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>

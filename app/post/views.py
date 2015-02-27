@@ -9,12 +9,10 @@ from .. import db
 from . import postbp  
 from .forms import PostForm 
 from .models import Post, Tag, Category
+from .utils import admin_required, _is_admin
 
 # re pattern for matching slugs in tags, categories strings with comma
 fetch_slug_rep = u'[,，]?\s*((?:[^,， ]+\s+)*[^,， ]+)\s*[,，]?'
-
-def _is_admin():
-    return current_user.is_authenticated and current_user.is_admin
 
 @postbp.route('/<index_name>', methods=['GET'])
 def post(index_name):
@@ -27,6 +25,7 @@ def post(index_name):
 
 @postbp.route('/create', methods=['GET', 'POST', ])
 @login_required
+@admin_required
 def create_post():
     form = PostForm()
     if request.method == 'GET':
@@ -61,6 +60,7 @@ def create_post():
 
 @postbp.route('/modify/<index_name>', methods=['GET', 'POST', ])
 @login_required
+@admin_required
 def modify_post(index_name):
     post = Post.query.filter_by(index_name=index_name).first()
     if post is None:
@@ -116,8 +116,10 @@ def modify_post(index_name):
                 post.tags.append(t)
             db.session.add(post)
             return redirect(url_for('.post', index_name=post.index_name))
+
 @postbp.route('/delete/<index_name>')
 @login_required
+@admin_required
 def post_delete(index_name):
     post = Post.query.filter_by(index_name=index_name).first()
     if post:
@@ -172,3 +174,4 @@ def _get_categories():
     return Category.query.all()
 def _get_archives():
     return list(map(lambda x: [date(x[0],x[1],1).strftime('%Y.%m'), x[2]], db.session.query(db.func.year(Post.released_time), db.func.month(Post.released_time), db.func.count('*')).group_by(db.func.year(Post.released_time), db.func.month(Post.released_time)).all()))
+

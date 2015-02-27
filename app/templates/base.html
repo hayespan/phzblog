@@ -10,6 +10,7 @@
     <meta name="author" content="潘海智">
     <meta name="description" content="一个爱画画的IT男！">
     <meta name="keywords" content="python, flask, django, web, paint, sysu">
+    <meta property="qc:admins" content="042147106153016631611006375" />
 
     <link rel="shortcut icon" href="/static/favicon.ico">
     <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"> -->
@@ -56,6 +57,13 @@
             padding-top: 10px;
             padding-right: 60px;
             float: right;
+        }
+        #user-grant {
+            color: #fff;
+        }
+        #user-grant a {
+            color: #fff;
+            text-decoration: none;
         }
         #main-navbar-1 {
             font-size: 20px;
@@ -127,6 +135,7 @@
     <!-- moment.js -->
     {{ moment.include_moment() }}
     {{ moment.lang('zh_CN') }}
+    {% if not current_user.is_authenticated() %}
     <script>
     $($("#qq_oauth").click(function() {
         window.open(
@@ -135,6 +144,7 @@
     "width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
     }))
     </script>
+    {% endif %}
     {% block script %}{% endblock %}
 </body>
 </html>

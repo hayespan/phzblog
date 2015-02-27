@@ -13,14 +13,18 @@ from flask.ext.login import LoginManager
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'user.login'
+# flask-mail
+from flask.ext.mail import Mail
+mail = Mail()
 
 # app factory class
 class App(object):
     def __init__(self, **kwargs):
         self.app = Flask(__name__, instance_relative_config=False)
         # config -- public config 
-        from phzblog import config
-        self.app.config.from_object(config)
+        # from phzblog import config
+        # self.app.config.from_object(config)
+        self.app.config.from_object('config')
         # instance/config.py -- private config
         self.app.config.from_pyfile('../instance/config.py')
         # config/xxx.py -- scence config
@@ -61,6 +65,9 @@ class App(object):
         # flask-moment
         from flask.ext.moment import Moment
         self.moment = Moment(self.app)
+
+        # flask-mail
+        mail.init_app(self.app)
 
         for k,v in kwargs.items():
             setattr(self.app, k, v)
