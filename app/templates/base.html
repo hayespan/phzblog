@@ -2,18 +2,15 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    
-    <title>{% block title %}潘海智的博客{% endblock %}</title>
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>{% block title %}Hayes Pan的博客{% endblock %}</title>
     <meta name="author" content="潘海智">
-    <meta name="description" content="一个爱画画的IT男！">
-    <meta name="keywords" content="python, flask, django, web, paint, sysu">
+    <meta name="description" content="一个爱画画的IT男！喜欢web方向，对众多技术都有兴趣，争取每天学一点新技术，向大牛迈进！">
+    <meta name="keywords" content="python, flask, django, web, paint, mysql, sysu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="qc:admins" content="042147106153016631611006375" />
 
     <link rel="shortcut icon" href="/static/favicon.ico">
-    <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"> -->
     <link href="http://libs.useso.com/js/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
     {% block style %}{% endblock %}
@@ -93,6 +90,7 @@
 
         .content {
             margin-top: 40px;
+            margin-bottom: 80px;
         }
         .content a {
             color: #4A5885;
@@ -105,8 +103,8 @@
         .footer {
             background-color: #4A5885;
             text-align: center;
-            margin-top: 10px;
-            padding-top: 50px;
+            margin-top: 80px;
+            padding-top: 100px;
             padding-bottom: 20px;
             position: absolute;
             width: 100%;
@@ -127,11 +125,8 @@
     {% block content %}{% endblock %}
     </div>
     {% include "footer.html" %}
-    <!-- <script src="/static/jquery/jquery.min.js"></script> -->
     <script src="http://libs.useso.com/js/jquery/1.11.1/jquery.min.js"></script>
-    <!-- <script src="/static/bootstrap/js/bootstrap.min.js"></script> -->
     <script src="http://libs.useso.com/js/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
     <!-- moment.js -->
     {{ moment.include_moment() }}
     {{ moment.lang('zh_CN') }}

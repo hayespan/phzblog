@@ -168,7 +168,7 @@ $('#post-released-time').datepicker({
 });
 // 自动调整textarea高度
 autorows = function() {
-    postarea = $('#post-input');
+    var postarea = document.getElementById("post-input");
     while (postarea.rows > 30 && postarea.scrollHeight < postarea.offsetHeight) {
         postarea.rows--;
     }
@@ -185,15 +185,14 @@ $(function() {
         flask_pagedown_converter = Markdown.getSanitizingConverter();
     Markdown.Extra.init(flask_pagedown_converter, {highlighter: "prettify"});
     flask_pagedown_converter = flask_pagedown_converter.makeHtml;
-    $textarea = $("#post-input");
-    $preview = $("<div class=\"post-preview\"></div>");
-    $post_right = $("#post-right");
+    var $textarea = $("#post-input");
+    var $preview = $("<div class=\"post-preview\"></div>");
+    var $post_right = $("#post-right");
     $post_right.append($preview);
     $textarea.keyup(function() {
         $preview.html(flask_pagedown_converter($textarea.val()));
         prettyPrint();
         autorows();})
-    <!-- textarea.onkeyup.call(textarea); -->
 });
 </script>
 {% endblock %}

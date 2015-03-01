@@ -11,7 +11,7 @@
 $(function() {
     if (typeof flask_pagedown_converter === "undefined")
         flask_pagedown_converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(flask_pagedown_converter, {highlighter: "prettify"});
+    Markdown.Extra.init(flask_pagedown_converter, {extensions: "all", highlighter: "prettify"});
     flask_pagedown_converter = flask_pagedown_converter.makeHtml;
     var $raw_posts = $(".raw-post");
     for(var i = 0;i<$raw_posts.length;i++) {

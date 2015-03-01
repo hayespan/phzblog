@@ -1,5 +1,5 @@
 {% macro postmacro(post) %}
-<div class="section row" id="{{ post.id }}">
+<div class="section row" id="{{ post.index_name }}">
     <div class="meta-box col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <div class="meta-box-inner">
             <div class="time-box img-circle">
@@ -31,11 +31,9 @@
                 <div class="comment">
                     <span class="glyphicon glyphicon-comment">
                     </span> 
-                    <a href="">
-                        <span id="comment-cnt">
-                            0
-                        </span>
-                    </a>
+                    <span class="comment-cnt" key="{{ post.index_name }}">
+                        0
+                    </span>
                 </div>
             </div>
             <div class="tag-box">
