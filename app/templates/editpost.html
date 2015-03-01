@@ -16,7 +16,7 @@ overflow-y: hidden;
 <div class="container-fluid">
     <div class="row">
         <div id="post-left" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <form class="createpost form-horizontal" method="post" action="{% if create %}{{ url_for('post.create_post') }}{% else %}{{ url_for('post.modify_post', index_name=index_name) }}{% endif %}"role="form">
+            <form id="post-form" class="createpost form-horizontal" method="post" action="{% if create %}{{ url_for('post.create_post') }}{% else %}{{ url_for('post.modify_post', index_name=index_name) }}{% endif %}"role="form">
                 <div class="form-group">
                     {{ form.csrf_token }}
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -194,5 +194,26 @@ $(function() {
         prettyPrint();
         autorows();})
 });
+// 转换为md并提交表单
+$(function(){
+    var $form = $("#post-form");
+    $form.submit(function(ev) {
+        var richtext = flask_pagedown_converter($("#post-input").val());
+        $.ajax({
+            type: $form.attr("method"),
+            url: $form.attr("action"),
+            data: $form.serialize()+"&richtext="+encodeURIComponent(richtext),
+            success: function(data) {
+                if(data['success']) {
+                    window.location = data["url"];
+                }
+                else {
+                    alert("post failed!");       
+                }
+            }
+            }); 
+        ev.preventDefault();
+        });
+    });
 </script>
 {% endblock %}

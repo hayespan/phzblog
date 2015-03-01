@@ -13,6 +13,7 @@ class PostForm(Form):
     categories = StringField(validators=[Required(), ])
     tags = StringField(validators=[Required(), ])
     post = TextAreaField()
+    richtext = TextAreaField()
     submit = SubmitField()
 
     # def validate_index_name(self, field):

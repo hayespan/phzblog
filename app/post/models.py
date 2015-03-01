@@ -25,6 +25,7 @@ class Post(db.Model):
     modified_time = db.Column(db.Date, default=datetime.utcnow, nullable=False)
     hidden = db.Column(db.Boolean, default=False, nullable=False)
     content = db.Column(db.Text(), nullable=False, default='')
+    richtext = db.Column(db.Text(), nullable=False, default='')
     categories = db.relationship('Category', secondary=post_category_association, backref=db.backref('posts', lazy='dynamic'), lazy='dynamic')
     tags = db.relationship('Tag', secondary=post_tag_association, backref=db.backref('posts', lazy='dynamic'), lazy='dynamic')
     read_cnt = db.Column(db.Integer, default=0, nullable=False)

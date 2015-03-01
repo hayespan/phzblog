@@ -32,11 +32,13 @@ def create_post():
         return render_template('editpost.html', form=form, create=True)
     elif request.method == 'POST':
         if form.validate_on_submit():
+            print form.richtext.data
             post = Post(
                     title=form.title.data,
                     index_name=form.index_name.data,
                     hidden=form.hidden.data,
                     content=form.post.data,
+                    richtext=form.richtext.data,
                     )
             if form.released_time.data is not None:
                 post.released_time = form.released_time.data
@@ -53,10 +55,12 @@ def create_post():
                 if tag is None:
                     tag = Tag(content=i)
                 post.tags.append(tag)
-            return redirect(url_for('.post', index_name=post.index_name))
+            return jsonify({"success": True, "url": url_for('.post', index_name=post.index_name)})
+            # return redirect(url_for('.post', index_name=post.index_name))
         else:
-            flash('POST failed.')
-            return render_template('editpost.html', form=form, create=True)
+            # flash('POST failed.')
+            # return render_template('editpost.html', form=form, create=True)
+            return jsonify({"success": False})
 
 @postbp.route('/modify/<index_name>', methods=['GET', 'POST', ])
 @login_required
@@ -88,6 +92,7 @@ def modify_post(index_name):
             post.released_time = form.released_time.data
             post.hidden = form.hidden.data
             post.content = form.post.data
+            post.richtext = form.richtext.data
             raw_categories = set(re.findall(fetch_slug_rep, form.categories.data))
             old_categories = set([i.content for i in post.categories.all()])
             for cg in (old_categories-raw_categories):
@@ -115,7 +120,9 @@ def modify_post(index_name):
                     db.session.add(t)
                 post.tags.append(t)
             db.session.add(post)
-            return redirect(url_for('.post', index_name=post.index_name))
+            # return redirect(url_for('.post', index_name=post.index_name))
+            return jsonify({"success": True, "url": url_for('.post', index_name=post.index_name)})
+        return jsonify({"success": False})
 
 @postbp.route('/delete/<index_name>')
 @login_required

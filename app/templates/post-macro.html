@@ -56,7 +56,9 @@
             </h2>
         </div>
         <div class="article-content">
-            <input class="raw-post hidden" type="hidden" value="{{ post.content }}"/>
+            <div class="rich-post">
+                {{ post.richtext|safe }}
+            </div>
         </div>
     </div>
 </div>

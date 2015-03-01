@@ -1,28 +1,9 @@
-<!-- 基本md -->
-<script src="/static/js/pagedown/Markdown.Converter.js"></script>
-<script src="/static/js/pagedown/Markdown.Sanitizer.js"></script>
-<!-- 拓展md -->
-<script src="/static/js/pagedown-extra/Markdown.Extra.js"></script>
 <!-- code高亮js -->
 <script src="/static/js/pagedown-extra/prettify.js"></script>
 
 <script>
-// 更新md预览
+// 增加行数，自适应图片，高亮代码
 $(function() {
-    if (typeof flask_pagedown_converter === "undefined")
-        flask_pagedown_converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(flask_pagedown_converter, {extensions: "all", highlighter: "prettify"});
-    flask_pagedown_converter = flask_pagedown_converter.makeHtml;
-    var $raw_posts = $(".raw-post");
-    for(var i = 0;i<$raw_posts.length;i++) {
-        var $raw_post = $raw_posts[i];
-        var $raw_text = $raw_post.value;
-        var $container = $($raw_post).parent();
-        $raw_post.remove();
-        var $rich_post = $("<div class=\"rich-post\"></div>");
-        $container.append($rich_post);
-        $rich_post.html(flask_pagedown_converter($raw_text));
-    }
     $('.prettyprint').addClass('linenums');
     $(".article-content img").addClass("img-responsive");
     prettyPrint();
