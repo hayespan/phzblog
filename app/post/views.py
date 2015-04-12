@@ -180,5 +180,5 @@ def tag_list():
 def _get_categories():
     return Category.query.all()
 def _get_archives():
-    return list(map(lambda x: [date(x[0],x[1],1).strftime('%Y.%m'), x[2]], db.session.query(db.func.year(Post.released_time), db.func.month(Post.released_time), db.func.count('*')).group_by(db.func.year(Post.released_time), db.func.month(Post.released_time)).all()))
+    return list(map(lambda x: [date(x[0],x[1],1).strftime('%Y.%m'), x[2]], db.session.query(db.func.year(Post.released_time), db.func.month(Post.released_time), db.func.count('*')).group_by(db.func.year(Post.released_time), db.func.month(Post.released_time)).all())).reverse()
 
