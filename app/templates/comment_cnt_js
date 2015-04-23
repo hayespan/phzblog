@@ -1,11 +1,21 @@
 <script>
+function refreshCommentCnt(data, $cms, i) {
+    var $cm = $($cms[i]);
+    var c = 0;
+    try {
+        c = data["response"][$cm.attr("key")]["comments"];
+    } catch(err) {}
+    $cm.html(c);
+}
+
 $(function() {
     var $cms = $('.comment-cnt');
     for(var i=0; i<$cms.length; i++) {
         var $cm = $($cms[i]);
-        $.getJSON("http://api.duoshuo.com/threads/counts.jsonp?callback=?&short_name=hayespan&threads="+$cm.attr("key"), function(data) {
-            $cm.html(data["response"][$cm.attr("key")]["comments"]);
-        })
+        $.getJSON("http://api.duoshuo.com/threads/counts.jsonp?callback=?&short_name=hayespan&threads="+$cm.attr("key"), (function(i) {
+            return function(data) {
+            refreshCommentCnt(data, $cms, i);
+        }}(i)));
     }
 });
 </script>
